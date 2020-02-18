@@ -7,8 +7,6 @@ class MyApp extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();// final is similar to const in JS
-
     return MaterialApp(
       theme: ThemeData(primaryColor: Colors.purple[900]),
       home: RandomWords()
@@ -45,27 +43,33 @@ class RandomWords extends StatefulWidget {
 
 // this is where we handle our UI stuff
 class RandomWordsState extends State<RandomWords> {
+  /**
+   * we want to iterate through this list/array  
+   * we are using the english words package and it's an array of WordPair type
+   */
+  final _randomWordPairs = <WordPair>[]; 
+
   Widget _buildList() {
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: <Widget>[
-        Container(
-          height: 50,
-          color: Colors.amber[600],
-          child: const Center(child: Text('Entry A')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.amber[500],
-          child: const Center(child: Text('Entry B')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.amber[100],
-          child: const Center(child: Text('Entry C')),
-        ),
-      ],
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: (context, item) {
+        if (item.isOdd) return Divider();
+
+        final index = item ~/ 2;// lists the number of items in the listview minus the diver widgets
+
+        if (index >= _randomWordPairs.length) {
+          _randomWordPairs.addAll(generateWordPairs().take(10));
+        }
+
+        return _buildRow(_randomWordPairs[index]);
+      },
     );
+  }
+
+  // we create this new widget which takes in a WordPair
+  Widget _buildRow(WordPair pair) {
+    return ListTile(title: Text(pair.asPascalCase,
+                                style: TextStyle(fontSize: 18.0))); // this is one of the rows in the list view
   }
 
   Widget build(BuildContext context) {
