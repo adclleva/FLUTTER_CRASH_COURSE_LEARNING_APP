@@ -7,9 +7,14 @@ class MyApp extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(primaryColor: Colors.purple[900]),
       home: Scaffold(
-        appBar: AppBar(title: Text('Flutter App'))
+        appBar: AppBar(title: Text('Flutter App')),
+        body: Center(
+          child: Text('Hello World')
+        )
       )
+
         // this is a widget of a Text property
         // Text(
         //   'Hello World',style: 
